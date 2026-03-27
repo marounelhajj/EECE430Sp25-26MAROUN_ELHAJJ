@@ -1,0 +1,51 @@
+{% extends 'volley_app/base.html' %}
+
+{% block title %}{{ player.name }} – VolleyPlayer Manager{% endblock %}
+{% block nav_home %}active{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Player <span>Detail</span></h1>
+    <a href="/" class="btn btn-outline">← Back to Roster</a>
+</div>
+
+<div class="detail-card">
+    <div class="detail-header">
+        <div class="player-id-badge">Player ID #{{ player.id }}</div>
+        <h2>{{ player.name }}</h2>
+        <span class="badge badge-{{ player.position }}" style="margin-top:8px">
+            {{ player.get_position_display }}
+        </span>
+    </div>
+
+    <div class="detail-body">
+        <div class="detail-grid">
+            <div class="detail-item">
+                <label>Date Joined</label>
+                <div class="value">{{ player.date_joined|date:"F d, Y" }}</div>
+            </div>
+            <div class="detail-item">
+                <label>Salary / Payment</label>
+                <div class="value salary">${{ player.salary }}</div>
+            </div>
+            <div class="detail-item">
+                <label>Contact Person</label>
+                <div class="value">{{ player.contact_person }}</div>
+            </div>
+            <div class="detail-item">
+                <label>Contact Phone</label>
+                <div class="value">{{ player.contact_phone|default:"—" }}</div>
+            </div>
+            <div class="detail-item">
+                <label>Contact Email</label>
+                <div class="value">{{ player.contact_email|default:"—" }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="detail-actions">
+        <a href="/player/{{ player.id }}/edit/" class="btn btn-primary">✏️ Edit Player</a>
+        <a href="/player/{{ player.id }}/delete/" class="btn btn-danger">🗑 Delete Player</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'volley_app/base.html' %}
+
+{% block title %}Delete {{ player.name }} – VolleyPlayer Manager{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Delete <span>Player</span></h1>
+    <a href="/" class="btn btn-outline">← Back to Roster</a>
+</div>
+
+<div class="confirm-card">
+    <div class="warning-icon">⚠️</div>
+    <h2>Delete this player?</h2>
+    <p>
+        You are about to permanently delete<br>
+        <strong>{{ player.name }}</strong> (ID #{{ player.id }}).<br>
+        This action cannot be undone.
+    </p>
+    <form method="post" style="display:flex; gap:1rem; justify-content:center;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">🗑 Yes, Delete</button>
+        <a href="/" class="btn btn-outline">Cancel</a>
+    </form>
+</div>
+{% endblock %}

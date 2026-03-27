@@ -1,0 +1,74 @@
+{% extends 'volley_app/base.html' %}
+
+{% block title %}Players – VolleyPlayer Manager{% endblock %}
+{% block nav_home %}active{% endblock %}
+
+{% block stats_bar %}
+<div class="stats-bar">
+    <div class="stats-bar-inner">
+        <span>Total Players: <strong>{{ players.count }}</strong></span>
+        {% if query %}<span>Search: <strong>"{{ query }}"</strong></span>{% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Player <span>Roster</span></h1>
+    <a href="/player/add/" class="btn btn-gold">＋ Add Player</a>
+</div>
+
+<form method="get" class="search-bar">
+    <input type="text" name="q" value="{{ query }}" placeholder="🔍  Search by player name…">
+    <button type="submit" class="btn btn-primary">Search</button>
+    {% if query %}<a href="/" class="btn btn-outline">Clear</a>{% endif %}
+</form>
+
+<div class="table-card">
+    {% if players %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Date Joined</th>
+                <th>Salary</th>
+                <th>Contact Person</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in players %}
+            <tr>
+                <td><span class="player-id">#{{ player.id }}</span></td>
+                <td><span class="player-name">{{ player.name }}</span></td>
+                <td>
+                    <span class="badge badge-{{ player.position }}">
+                        {{ player.get_position_display }}
+                    </span>
+                </td>
+                <td>{{ player.date_joined|date:"M d, Y" }}</td>
+                <td><span class="salary">${{ player.salary }}</span></td>
+                <td>{{ player.contact_person }}</td>
+                <td>
+                    <div class="action-btns">
+                        <a href="/player/{{ player.id }}/" class="btn btn-outline btn-sm">View</a>
+                        <a href="/player/{{ player.id }}/edit/" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="/player/{{ player.id }}/delete/" class="btn btn-danger btn-sm">Del</a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <div class="big-icon">🏐</div>
+        <h3>{% if query %}No players found for "{{ query }}"{% else %}No players yet{% endif %}</h3>
+        <p style="margin: 0.5rem 0 1.5rem">{% if query %}Try a different search term.{% else %}Start building your roster!{% endif %}</p>
+        {% if not query %}<a href="/player/add/" class="btn btn-gold">Add First Player</a>{% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
